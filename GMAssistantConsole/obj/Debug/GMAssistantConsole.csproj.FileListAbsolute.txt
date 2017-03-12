@@ -1,0 +1,7 @@
+G:\ProgrammingProjects\Visual Studio 2015\Projects\GMAssistant\GMAssistantConsole\bin\Debug\GMAssistantConsole.exe.config
+G:\ProgrammingProjects\Visual Studio 2015\Projects\GMAssistant\GMAssistantConsole\bin\Debug\GMAssistantConsole.exe
+G:\ProgrammingProjects\Visual Studio 2015\Projects\GMAssistant\GMAssistantConsole\bin\Debug\GMAssistantConsole.pdb
+G:\ProgrammingProjects\Visual Studio 2015\Projects\GMAssistant\GMAssistantConsole\obj\Debug\GMAssistantConsole.exe
+G:\ProgrammingProjects\Visual Studio 2015\Projects\GMAssistant\GMAssistantConsole\obj\Debug\GMAssistantConsole.pdb
+G:\ProgrammingProjects\Visual Studio 2015\Projects\GMAssistant\GMAssistantConsole\obj\Debug\GMAssistantConsole.csprojResolveAssemblyReference.cache
+G:\ProgrammingProjects\Visual Studio 2015\Projects\GMAssistant\GMAssistantConsole\bin\Debug\MySql.Data.dll

@@ -1,0 +1,9 @@
+G:\ProgrammingProjects\Visual Studio 2015\Projects\GMAssistant\GMAssistant\bin\Debug\GMAssistant.exe.config
+G:\ProgrammingProjects\Visual Studio 2015\Projects\GMAssistant\GMAssistant\bin\Debug\GMAssistant.exe
+G:\ProgrammingProjects\Visual Studio 2015\Projects\GMAssistant\GMAssistant\bin\Debug\GMAssistant.pdb
+G:\ProgrammingProjects\Visual Studio 2015\Projects\GMAssistant\GMAssistant\obj\Debug\GMAssistant.csprojResolveAssemblyReference.cache
+G:\ProgrammingProjects\Visual Studio 2015\Projects\GMAssistant\GMAssistant\obj\Debug\GMAssistant.Main.resources
+G:\ProgrammingProjects\Visual Studio 2015\Projects\GMAssistant\GMAssistant\obj\Debug\GMAssistant.Properties.Resources.resources
+G:\ProgrammingProjects\Visual Studio 2015\Projects\GMAssistant\GMAssistant\obj\Debug\GMAssistant.csproj.GenerateResource.Cache
+G:\ProgrammingProjects\Visual Studio 2015\Projects\GMAssistant\GMAssistant\obj\Debug\GMAssistant.exe
+G:\ProgrammingProjects\Visual Studio 2015\Projects\GMAssistant\GMAssistant\obj\Debug\GMAssistant.pdb
