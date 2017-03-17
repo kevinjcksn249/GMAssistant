@@ -142,19 +142,58 @@ namespace GMAssistantConsole
         /// <param name="c">The character being saved to the database.</param>
         public void SaveCharacter(Character c)
         {
-            try
+            NeuralLink.Close();
+            if (CheckCharacterExists(c.Handle))
             {
-                DeleteCharacter(c.Name);
-                string cName = c.Name;
-                string cHandle = c.Handle;
-
+                string q = "UPDATE CP2020Db.CP_CHARACTERS " +
+                            " SET charName = '" + c.Name + "' " +
+                            ", charHandle = '" + c.Handle + "' " +
+                            ", charPoints = " + c.CharacterPoints +
+                            ", charRole = '" + c.Class.ToString() + "' " +
+                            ", charAge = " + c.Age +
+                            ", charAttract = " + c.Stats.Attract +
+                            ", charBody = " + c.Stats.Body +
+                            ", charCool = " + c.Stats.Cool +
+                            ", charEmpathy = " + c.Stats.Empathy +
+                            ", charIntelligence = " + c.Stats.Intell +
+                            ", charLuck = " + c.Stats.Luck +
+                            ", charMove = " + c.Stats.Move +
+                            ", charReflex = " + c.Stats.Reflex +
+                            ", charTech = " + c.Stats.Tech +
+                            ", charRun = " + c.Stats.Run +
+                            ", charLeap = " + c.Stats.Leap +
+                            ", charLift = " + c.Stats.Lift +
+                            ", charHumanity = " + c.Humanity +
+                            " WHERE charHandle = '" + c.Handle + "';";
+                NeuralLink.Open();
+                runQuery(q);
+                NeuralLink.Close();
             }
-            catch (InvalidOperationException e)
+            else
             {
-                #if DEBUG
-                Console.WriteLine("Character record not found. Creating new record");
-                #endif
-                // Create new character record
+                string q = "INSERT INTO CP2020Db.CP_CHARACTERS (charName, charHandle, charPoints, charRole, charAge, charAttract, charBody, charCool, charEmpathy, charIntelligence, charLuck, charMove, charReflex, charTech, charRun, charLeap, charLift, charHumanity)" +
+                    "VALUES (" +
+                    "'" + c.Name + "', " +
+                    "'" + c.Handle + "', " +
+                    c.CharacterPoints + ", " +
+                    "'" + c.Class.ToString() + "', " +
+                    c.Age + ", " +
+                    c.Stats.Attract + ", " +
+                    c.Stats.Body + ", " +
+                    c.Stats.Cool + ", " +
+                    c.Stats.Empathy + ", " +
+                    c.Stats.Intell + ", " +
+                    c.Stats.Luck + ", " +
+                    c.Stats.Move + ", " +
+                    c.Stats.Reflex + ", " +
+                    c.Stats.Tech + ", " +
+                    c.Stats.Run + ", " +
+                    c.Stats.Leap + ", " +
+                    c.Stats.Lift + ", " +
+                    c.Humanity + ");";
+                NeuralLink.Open();
+                runQuery(q);
+                NeuralLink.Close();
             }
         }
 

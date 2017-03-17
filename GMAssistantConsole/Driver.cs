@@ -24,8 +24,11 @@ namespace GMAssistantConsole
         static void Main(string[] args)
         {
             Assistant ass = new Assistant();
-            WriteLine(ass.LoadCharacter("Fixit"));
+            Character c = ass.LoadCharacter("Fixit");
+
+           
             ass.DeleteCharacter("Fixit");
+            ass.SaveCharacter(c);
             ReadKey();
         }
 
