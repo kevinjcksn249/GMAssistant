@@ -24,8 +24,8 @@ namespace GMAssistantConsole
         static void Main(string[] args)
         {
             Assistant ass = new Assistant();
-            bool b = ass.CheckCharacterExists("Fixit");
-            WriteLine(b);
+            Character fixit = ass.LoadCharacter("Naru Akigawa");
+            WriteLine(fixit);
             ReadKey();
         }
 

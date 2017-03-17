@@ -26,7 +26,8 @@ namespace GMAssistantConsole
         public int CharacterPoints { get; set; }
         public StatTable Stats { get; private set; }
         public int BodyTypeModifier { get; private set; }
-
+        public int Humanity { get; private set; }
+        
         #endregion
 
         #region Methods
@@ -99,6 +100,20 @@ namespace GMAssistantConsole
             Build = GetBuild();
             CharacterPoints = GetPoints(stats);
             Stats = new StatTable(stats);
+        }
+        public Character(List<int> stats,
+                         string n = "Punk",
+                         string h = "(None)",
+                         string c = "Other",
+                         int? a = 16)
+        {
+            Name = n;
+            Handle = h;
+            Class = GetClassFromString(c);
+            Build = GetBuild();
+            CharacterPoints = GetPoints(stats);
+            Stats = new StatTable(stats);
+            Age = (int)a;
         }
         #endregion
         #region Calculations
