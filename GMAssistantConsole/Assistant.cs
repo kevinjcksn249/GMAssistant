@@ -75,6 +75,11 @@ namespace GMAssistantConsole
         #endregion
 
         #region Character Management
+        /// <summary>
+        /// Gets a character with the given name from <see cref="LoadedCharacters"/>
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
         public Character GetCharacter(string name)
         {
             Character c = new Character(n: name);
@@ -127,7 +132,7 @@ namespace GMAssistantConsole
             return newChar;
         }
 
-
+        #region Database interaction
         /// <summary>
         /// Saves a given character to the database.
         /// BE SURE to check if user wishes to potentially override a 
@@ -153,36 +158,6 @@ namespace GMAssistantConsole
             }
         }
 
-        public void DeleteCharacter(string n)
-        {
-            if (CheckCharacterExists(n))
-            {
-                
-            }
-            else
-            {
-                throw new InvalidOperationException("ERROR: Attempt to delete non-existent character");
-            }
-        }
-
-        /// <summary>
-        /// Check if the database contains a character with the given name.
-        /// <see cref="NeuralLink"/> must be closed before calling this method.
-        /// </summary>
-        /// <param name="charName">Name of the character.</param>
-        /// <returns></returns>
-        public bool CheckCharacterExists(string charName)
-        {
-            bool exists = false;
-            string q = "SELECT * FROM CP2020Db.CP_CHARACTERS WHERE charName = '" + charName + "';";
-            NeuralLink.Open();
-            MySqlDataReader result = runQuery(q);
-            if (result != null)
-                exists = true;
-            NeuralLink.Close();
-            return exists;
-        }
-
         /// <summary>
         /// Loads a character from the database with the given name.
         /// </summary>
@@ -194,7 +169,7 @@ namespace GMAssistantConsole
             if (CheckCharacterExists(n))
             {
                 // Get character info from the database
-                string q = "SELECT * FROM CP2020Db.CP_CHARACTERS WHERE charName = '" + n + "';";
+                string q = "SELECT * FROM CP2020Db.CP_CHARACTERS WHERE charHandle = '" + n + "';";
                 NeuralLink.Open();
                 MySqlDataReader characterData = runQuery(q);
                 characterData.Read();
@@ -221,8 +196,8 @@ namespace GMAssistantConsole
 
                 // Generate new character
                 List<int> charStats = new List<int> { charInt, charRef, charTech, charCool, charAttr, charLuck, charMove, charBod, charEmp };
-                loadedChar = CreateCharacter(charName, charStats,  charRole, handle: charHandle);
-                
+                loadedChar = CreateCharacter(charName, charStats, charRole, handle: charHandle);
+
             }
             else
             {
@@ -231,6 +206,50 @@ namespace GMAssistantConsole
             return loadedChar;
         }
 
+        /// <summary>
+        /// Deletes a character from the database.
+        /// MAKE SURE this is what the user wants
+        /// before running this method.
+        /// Update to this method is required upon
+        /// addition of weapons, gear, and cybernetics
+        /// to the database.
+        /// </summary>
+        /// <param name="n">The n.</param>
+        /// <exception cref="InvalidOperationException">ERROR: Attempt to delete non-existent character</exception>
+        public void DeleteCharacter(string n)
+        {
+            if (CheckCharacterExists(n))
+            {
+                string q = "DELETE FROM CP2020Db.CP_CHARACTERS WHERE charHandle = '" + n + "';";
+                NeuralLink.Open();
+                runQuery(q);
+                NeuralLink.Close();
+            }
+            else
+            {
+                throw new InvalidOperationException("ERROR: Attempt to delete non-existent character");
+            }
+        }
+
+        /// <summary>
+        /// Check if the database contains a character with the handle.
+        /// <see cref="NeuralLink"/> must be closed before calling this method.
+        /// </summary>
+        /// <param name="charName">The character's handle.</param>
+        /// <returns></returns>
+        public bool CheckCharacterExists(string charName)
+        {
+            bool exists = false;
+            string q = "SELECT * FROM CP2020Db.CP_CHARACTERS WHERE charHandle = '" + charName + "' ;";
+            NeuralLink.Open();
+            MySqlDataReader result = runQuery(q);
+            if (result != null)
+                exists = true;
+            NeuralLink.Close();
+            return exists;
+        }
+
+ 
         /// <summary>
         /// Runs the given query. <see cref="NeuralLink"/> MUST be
         /// opened before running this method and MUST be closed
@@ -254,8 +273,8 @@ namespace GMAssistantConsole
                 return null;
             }
         }
-        
         #endregion
         #endregion
-        }
+        #endregion
     }
+}
