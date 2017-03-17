@@ -1,4 +1,5 @@
-﻿//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+﻿#define DEBUG
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 //	Project:		GM Assistant
 //	File Name:		Assistant.cs
@@ -106,12 +107,70 @@ namespace GMAssistantConsole
         }
         public void SaveCharacter(Character c)
         {
-            throw new NotImplementedException();
+            // BE SURE to check if user wishes to potentially override a 
+            // character with the same name as c BEFORE calling this method
+            bool exists = CheckCharacterExists(c.Name);
+            if (exists)
+            {
+                // Override existing info
+            }
+            else
+            {
+                // Create new record
+            }
         }
 
-        public Character LoadCharacter()
+        /// <summary>
+        /// Check if the database contains a character with the given name
+        /// </summary>
+        /// <param name="charName">Name of the character.</param>
+        /// <returns></returns>
+        public bool CheckCharacterExists(string charName)
         {
-            throw new NotImplementedException();
+            bool exists = false;
+            string q = "SELECT * FROM CP_CHARACTERS WHERE charName = " + charName + ';';
+            MySqlDataReader result = runQuery(q);
+            if (result != null)
+                exists = true;
+            return exists;
+        }
+
+        public Character LoadCharacter(string n)
+        {
+            Character loadedChar = new Character();
+            if (CheckCharacterExists(n))
+            {
+            }
+            else
+            {
+                throw new InvalidOperationException("ERROR: could not find character '" + n + "'. Please create a new character.");
+            }
+            return loadedChar;
+        }
+
+        /// <summary>
+        /// Runs the given query.
+        /// </summary>
+        /// <param name="query">The query.</param>
+        public MySqlDataReader runQuery(string query)
+        {
+            try
+            {
+                NeuralLink.Open();
+                MySqlCommand comm = new MySqlCommand(query, NeuralLink);
+                MySqlDataReader data = comm.ExecuteReader();
+                NeuralLink.Close();
+                data.Close();
+                return data;
+            }
+            catch (MySqlException ex)
+            {
+                #if DEBUG
+                Console.WriteLine(ex);
+                #endif
+                NeuralLink.Close();
+                return null;
+            }
         }
         #endregion
         #endregion

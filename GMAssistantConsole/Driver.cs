@@ -23,8 +23,9 @@ namespace GMAssistantConsole
     {
         static void Main(string[] args)
         {
-            string ExitMessage = "\tPress X to exit the program.";
-            CreateInsert();
+            Assistant ass = new Assistant();
+            bool b = ass.CheckCharacterExists("Fixit");
+            WriteLine(b);
             ReadKey();
         }
 
@@ -76,15 +77,15 @@ namespace GMAssistantConsole
             CharacterClass role;
             switch (userChoice)
             {
-                case "1": role = CharacterClass.Solo; break;
-                case "2": role = CharacterClass.Rocker; break;
-                case "3": role = CharacterClass.Netrunner; break;
-                case "4": role = CharacterClass.Techie; break;
-                case "5": role = CharacterClass.Media; break;
-                case "6": role = CharacterClass.Cop; break;
-                case "7": role = CharacterClass.Corp; break;
-                case "8": role = CharacterClass.Fixer; break;
-                case "9": role = CharacterClass.Medtechie; break;
+                case "1":  role = CharacterClass.Solo; break;
+                case "2":  role = CharacterClass.Rocker; break;
+                case "3":  role = CharacterClass.Netrunner; break;
+                case "4":  role = CharacterClass.Techie; break;
+                case "5":  role = CharacterClass.Media; break;
+                case "6":  role = CharacterClass.Cop; break;
+                case "7":  role = CharacterClass.Corp; break;
+                case "8":  role = CharacterClass.Fixer; break;
+                case "9":  role = CharacterClass.Medtechie; break;
                 case "10": role = CharacterClass.Nomad; break;
                 case "11": role = CharacterClass.Politician; break;
                 case "12": role = CharacterClass.Other; break;
