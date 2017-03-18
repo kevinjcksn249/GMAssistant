@@ -218,6 +218,17 @@ namespace GMAssistantConsole
         }
 
         /// <summary>
+        /// Saves all characters in <see cref="LoadedCharacters"/>.
+        /// </summary>
+        public void SaveAll()
+        {
+            foreach(Character c in LoadedCharacters)
+            {
+                SaveCharacter(c);
+            }
+        }
+
+        /// <summary>
         /// Loads a character from the database with the given name.
         /// </summary>
         /// <param name="n">The name of the character to load from the database.</param>
@@ -265,6 +276,41 @@ namespace GMAssistantConsole
             return loadedChar;
         }
 
+        /// <summary>
+        /// Loads all characters in the database.
+        /// </summary>
+        public void LoadAll()
+        {
+            string q = "SELECT * FROM CP2020Db.CP_CHARACTERS;";
+            NeuralLink.Open();
+            MySqlDataReader characterData =  runQuery(q);
+            while (characterData.Read())
+            {
+                string charName = characterData.GetString(1);
+                string charHandle = characterData.GetString(2);
+                int charPoints = characterData.GetInt32(3);
+                string charRole = characterData.GetString(4);
+                int charAge = characterData.GetInt32(5);
+                int charAttr = characterData.GetInt32(6);
+                int charBod = characterData.GetInt32(7);
+                int charCool = characterData.GetInt32(8);
+                int charEmp = characterData.GetInt32(9);
+                int charInt = characterData.GetInt32(10);
+                int charLuck = characterData.GetInt32(11);
+                int charMove = characterData.GetInt32(12);
+                int charRef = characterData.GetInt32(13);
+                int charTech = characterData.GetInt32(14);
+                int charRun = characterData.GetInt32(15);
+                int charLeap = characterData.GetInt32(16);
+                int charLift = characterData.GetInt32(17);
+                int charHum = characterData.GetInt32(18);
+                NeuralLink.Close();
+
+                // Generate new character
+                List<int> charStats = new List<int> { charInt, charRef, charTech, charCool, charAttr, charLuck, charMove, charBod, charEmp };
+                CreateCharacter(charName, charStats, charRole, handle: charHandle);
+            }
+        }
         /// <summary>
         /// Deletes a character from the database.
         /// MAKE SURE this is what the user wants

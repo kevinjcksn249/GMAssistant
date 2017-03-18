@@ -2,9 +2,9 @@
 //
 //	Project:		GMAssistant
 //	File Name:		Driver.cs
-//	Description:	Handles I/O for the GM Assistant
+//	Description:	Handles I/O for the GM Assistant app
 //	Author:			Kevin Jackson, kevinjcksn249@gmail.com
-//	Created:		
+//	Created:		January 13, 2017
 //	Copyright:		Kevin Jackson, 2017
 //
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -24,131 +24,63 @@ namespace GMAssistantConsole
         {
             Assistant ass = new Assistant();
 			string userInput = "";
-			string[] Options = { "help", "generate", "load", "build", "list", "save" }
+            string[] options = { "help", "generate", "load", "build", "list", "save", "view", "edit", "exit" };
+            WriteLine("Type 'help' for available actions");
 			while (userInput != "exit")
 			{
 				Write ("\nGMAssistant: ");
 				userInput = ReadLine ();
-				string [] userInputs = userInput.Split (' ');
+				string [] userInputs = userInput.Split ();
 				switch (userInputs[0])
 				{
-					case
+                    case "generate":
+                        if (userInputs.Length == 1)
+                        {
+                            GenCharacter(ass);
+                        }
+                        break;
+                    case "load":
+                        if (userInputs.Length == 1)
+                        {
+                            
+                        }
+                        break;
+                    default:
+                        break;
 				}
 			}
         }
 
-        static void MainMenu(string ExitMessage, Assistant A)
+        #region Main program functions
+        /// <summary>
+        /// Walks the user through generating a character
+        /// </summary>
+        /// <param name="a">This session's <see cref="Assistant"/> object.</param>
+        static void GenCharacter(Assistant a)
         {
-            Clear();
-            WriteLine("\n" + ExitMessage + "\n");
-            Menu mainMenu = new Menu(t: "What do you wish to do?", pr: " ", d: '-', p: 8);
-            mainMenu.AddChoice("Create a character randomly");
-            mainMenu.AddChoice("Create a character with my own stats");
-            Write(mainMenu);
-            string userChoice = ReadKey().KeyChar.ToString();
-            switch (userChoice)
-            {
-                case "1":
-                    GenerateCharacterMenu(A, ExitMessage);
-                    break;
-                case "2":
-                    break;
-                case "x":
-                    return;
-                default:
-                    MainMenu(ExitMessage, A);
-                    break;
-            }
+            string name = GetString("Enter the character's full name: ");
+            string handle = GetString("Enter the character's handle, or nickname: ");
+            WriteLine("Character ranks:\nPeon: 45\nAverage: 50 \nMinor Supporting character: 60\nMajor Supporting character: 70\nMinor hero: 75\nMajor Hero: 80\nBoss 85");
+            int points = GetInt("Enter the number of points this character gets: ");
+            WriteLine("\n\nAvailable classes");
+            var classes = Enum.GetValues(typeof(CharacterClass));
+            foreach (CharacterClass c in classes)
+                WriteLine(c.ToString());
+            CharacterClass role = GetRole("Enter the character's class: ");
+            bool lucky = false;
+            if (points < 80)
+                lucky = GetBool("Does this character get luck? [y/n]: ");
+            WriteLine("Generating.....");
+            Character punk = a.CreateCharacter(name, points, role, handle, lucky);
+            WriteLine("Finished!\n");
+            WriteLine(punk);
         }
-
-        static void GenerateCharacterMenu(Assistant A, string em)
+        
+        static void LoadCharacter(Assistant a)
         {
-            Clear();
-            string Name = GetString("\n\tPlease enter the character's name: ");
-            string Handle = GetString("\n\tPlease enter the character's handle: ");
-            int points = GetInt("\n\tEnterthe total points this character gets: ");
-            Menu classPicker = new Menu(p: 8, pr: "Choose a class: ", t: "Available classes:");
-            classPicker.AddChoice("Solo");
-            classPicker.AddChoice("Rocker");
-            classPicker.AddChoice("Netrunner");
-            classPicker.AddChoice("Techie");
-            classPicker.AddChoice("Media");
-            classPicker.AddChoice("Cop");
-            classPicker.AddChoice("Corp");
-            classPicker.AddChoice("Fixer");
-            classPicker.AddChoice("Medtechie");
-            classPicker.AddChoice("Nomad");
-            classPicker.AddChoice("Politician");
-            classPicker.AddChoice("Other");
-            Write(classPicker);
-            string userChoice = ReadLine();
-            CharacterClass role;
-            switch (userChoice)
-            {
-                case "1":  role = CharacterClass.Solo; break;
-                case "2":  role = CharacterClass.Rocker; break;
-                case "3":  role = CharacterClass.Netrunner; break;
-                case "4":  role = CharacterClass.Techie; break;
-                case "5":  role = CharacterClass.Media; break;
-                case "6":  role = CharacterClass.Cop; break;
-                case "7":  role = CharacterClass.Corp; break;
-                case "8":  role = CharacterClass.Fixer; break;
-                case "9":  role = CharacterClass.Medtechie; break;
-                case "10": role = CharacterClass.Nomad; break;
-                case "11": role = CharacterClass.Politician; break;
-                case "12": role = CharacterClass.Other; break;
-                default: role = CharacterClass.Other; break;
-            }
-            Character c = A.CreateCharacter(Name, points, role, Handle, true);
-            WriteLine("\n" + c);
-            WriteLine("\n\tPress any key to continue...");
-            ReadKey();
-            MainMenu(em, A);
-        }
-
-        static void CustomStatsMenu()
-        {
-            Clear();
 
         }
+        #endregion
 
-        static int GetInt(string prompt)
-        {
-            int input = 0;
-            Write("\n" + prompt);
-            string strInput = ReadLine();
-            if (!Int32.TryParse(strInput, out input))
-            {
-                WriteLine("ERROR! Numeric input is required!");
-                ReadKey();
-                input = GetInt(prompt);
-            }
-            return input;
-        }
-
-        static string GetString(string prompt)
-        {
-            Write("\n" + prompt);
-            string input = ReadLine();
-            return input;
-        }
-
-        static void CreateInsert()
-        {
-            string insertLine = "INSERT INTO CP2020Db.SKILLS (skillName, skillType) VALUES";
-            StreamReader r = new StreamReader(@"G:\Scripts\skillList.txt");
-            StreamWriter wr = new StreamWriter(@"G:\Scripts\CreateSkills.sql");
-            string line;
-            while ((line = r.ReadLine()) != null)
-            {
-                string[] words = line.Split(',');
-                string skill = words[0];
-                string cata = words[1];
-                wr.WriteLine(insertLine);
-                wr.WriteLine("(" + '"' + skill + '"' + ", " + '"' + cata + '"' + ");");
-            }
-            r.Close();
-            wr.Close();
-        }
     }
 }
