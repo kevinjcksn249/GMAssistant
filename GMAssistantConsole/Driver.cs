@@ -23,13 +23,18 @@ namespace GMAssistantConsole
         static void Main(string[] args)
         {
             Assistant ass = new Assistant();
-			WriteLine(ass.CheckCharacterExists ("Savvy"));
-            Character c = ass.LoadCharacter("Fixit");
-
-           
-            ass.DeleteCharacter("Fixit");
-            ass.SaveCharacter(c);
-            ReadKey();
+			string userInput = "";
+			string[] Options = { "help", "generate", "load", "build", "list", "save" }
+			while (userInput != "exit")
+			{
+				Write ("\nGMAssistant: ");
+				userInput = ReadLine ();
+				string [] userInputs = userInput.Split (' ');
+				switch (userInputs[0])
+				{
+					case
+				}
+			}
         }
 
         static void MainMenu(string ExitMessage, Assistant A)
