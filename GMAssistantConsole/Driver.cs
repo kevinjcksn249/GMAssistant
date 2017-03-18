@@ -3,7 +3,7 @@
 //	Project:		GMAssistant
 //	File Name:		Driver.cs
 //	Description:	Handles I/O for the GM Assistant
-//	Author:			Kevin Jackson, kevinjcksn249@gmail.com, "A Modern Mage"
+//	Author:			Kevin Jackson, kevinjcksn249@gmail.com
 //	Created:		
 //	Copyright:		Kevin Jackson, 2017
 //

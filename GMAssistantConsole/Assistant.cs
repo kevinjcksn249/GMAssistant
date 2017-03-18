@@ -6,7 +6,7 @@
 //	Description:	Set of tools for assisting a GM in running a Cyberpunk 2020 campaign.
 //                  Acts as the controller in the MVC model, allowing for loading characters from a database, as
 //                  well as modfying and saving them.
-//	Author:			Kevin Jackson, kevinjcksn249@gmail.com, "A Modern Mage"
+//	Author:			Kevin Jackson, kevinjcksn249@gmail.com
 //	Created:		January 13, 2017
 //	Copyright:		Kevin Jackson, 2017
 //
