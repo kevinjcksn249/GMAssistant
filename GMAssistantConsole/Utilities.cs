@@ -24,7 +24,7 @@ namespace GMAssistantConsole
         /// </summary>
         /// <param name="prompt">The prompt.</param>
         /// <returns></returns>
-        static int GetInt(string prompt)
+        public static int GetInt(string prompt)
         {
             int input = 0;
             Write("\n" + prompt);
@@ -43,7 +43,7 @@ namespace GMAssistantConsole
         /// </summary>
         /// <param name="prompt">The prompt.</param>
         /// <returns></returns>
-        static string GetString(string prompt)
+        public static string GetString(string prompt)
         {
             Write("\n" + prompt);
             string input = ReadLine();
@@ -55,7 +55,7 @@ namespace GMAssistantConsole
         /// </summary>
         /// <param name="prompt">The prompt.</param>
         /// <returns></returns>
-        static bool GetBool(string prompt)
+        public static bool GetBool(string prompt)
         {
             Write("\n" + prompt);
             string input = ReadLine();
@@ -74,7 +74,7 @@ namespace GMAssistantConsole
         /// </summary>
         /// <param name="prompt">The prompt.</param>
         /// <returns></returns>
-        static CharacterClass GetRole(string prompt)
+        public static CharacterClass GetRole(string prompt)
         {
             CharacterClass role = CharacterClass.Other;
             Write("\n" + prompt);
@@ -126,7 +126,7 @@ namespace GMAssistantConsole
         /// <summary>
         /// Creates an SQL insert script from the text file "skillList.txt"
         /// </summary>
-        static void CreateInsert()
+        public static void CreateInsert()
         {
             string insertLine = "INSERT INTO CP2020Db.SKILLS (skillName, skillType) VALUES";
             StreamReader r = new StreamReader(@"G:\Scripts\skillList.txt");
