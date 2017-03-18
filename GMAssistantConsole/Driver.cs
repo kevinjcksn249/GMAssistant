@@ -24,6 +24,7 @@ namespace GMAssistantConsole
         static void Main(string[] args)
         {
             Assistant ass = new Assistant();
+			WriteLine(ass.CheckCharacterExists ("Savvy"));
             Character c = ass.LoadCharacter("Fixit");
 
            

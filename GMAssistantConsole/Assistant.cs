@@ -165,10 +165,21 @@ namespace GMAssistantConsole
                             ", charLift = " + c.Stats.Lift +
                             ", charHumanity = " + c.Humanity +
                             " WHERE charHandle = '" + c.Handle + "';";
-                NeuralLink.Open();
-                runQuery(q);
-                NeuralLink.Close();
-            }
+
+				string dis = "SET autocommit = 0;";
+				string com = "COMMIT;";
+				string res = "SET autocommit = 1;";
+				NeuralLink.Open ();
+				MySqlDataReader r1 = runQuery (dis);
+				r1.Close ();
+				r1 = runQuery (q);
+				r1.Close ();
+				r1 = runQuery (com);
+				r1.Close ();
+				r1 = runQuery (res);
+				r1.Close ();
+				NeuralLink.Close ();
+			}
             else
             {
                 string q = "INSERT INTO CP2020Db.CP_CHARACTERS (charName, charHandle, charPoints, charRole, charAge, charAttract, charBody, charCool, charEmpathy, charIntelligence, charLuck, charMove, charReflex, charTech, charRun, charLeap, charLift, charHumanity)" +
@@ -191,8 +202,17 @@ namespace GMAssistantConsole
                     c.Stats.Leap + ", " +
                     c.Stats.Lift + ", " +
                     c.Humanity + ");";
-                NeuralLink.Open();
-                runQuery(q);
+				string dis = "SET autocommit = 0;";
+				string com = "COMMIT;";
+				string res = "SET autocommit = 1;";
+				NeuralLink.Open();
+				MySqlDataReader r1 = runQuery (dis);
+				r1.Close ();
+                r1 = runQuery (q);
+				r1.Close ();
+				r1 = runQuery (com);
+				r1.Close ();
+				r1 = runQuery (res);
                 NeuralLink.Close();
             }
         }
@@ -260,8 +280,15 @@ namespace GMAssistantConsole
             if (CheckCharacterExists(n))
             {
                 string q = "DELETE FROM CP2020Db.CP_CHARACTERS WHERE charHandle = '" + n + "';";
+				string dis = "SET autocommit = 0;";
+				string com = "COMMIT;";
                 NeuralLink.Open();
-                runQuery(q);
+				MySqlDataReader r1 = runQuery (dis);
+				r1.Close ();
+                r1 = runQuery(q);
+				r1.Close ();
+				runQuery (com);
+				r1.Close ();
                 NeuralLink.Close();
             }
             else
@@ -282,8 +309,10 @@ namespace GMAssistantConsole
             string q = "SELECT * FROM CP2020Db.CP_CHARACTERS WHERE charHandle = '" + charName + "' ;";
             NeuralLink.Open();
             MySqlDataReader result = runQuery(q);
-            if (result != null)
-                exists = true;
+			if (result != null)
+			{
+				exists = result.Read ();
+			}
             NeuralLink.Close();
             return exists;
         }
@@ -308,7 +337,6 @@ namespace GMAssistantConsole
                 #if DEBUG
                 Console.WriteLine(ex);
                 #endif
-                NeuralLink.Close();
                 return null;
             }
         }
