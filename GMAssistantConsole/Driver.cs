@@ -85,6 +85,7 @@ namespace GMAssistantConsole
                         "    csheet [character handle] - look at a character's character sheet\n" +
                         "      edit [character handle] - edit a character's stats, handle, and name\n" +
                         "                         exit - exit the program\n\n\n";
+			WriteLine (h);
         }
 
         /// <summary>
@@ -136,7 +137,7 @@ namespace GMAssistantConsole
             if (c.Handle != handle)
                 WriteLine("Sorry! That character is not in the database!");
             else
-                WriteLine(handle + "loaded successfully!");
+                WriteLine(handle + " loaded successfully!");
         }
 
         /// <summary>
