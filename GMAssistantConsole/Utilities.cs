@@ -31,13 +31,23 @@ namespace GMAssistantConsole
             string strInput = ReadLine();
             if (!Int32.TryParse(strInput, out input))
             {
-                WriteLine("ERROR! Numeric input is required!");
+                WriteLine("That's not a integer value.");
                 ReadKey();
                 input = GetInt(prompt);
             }
             return input;
         }
 
+        public static int GetMaxedInt(string prompt, int max)
+        {
+            int input = GetInt(prompt);
+            if (input > max || input <= 0)
+            {
+                WriteLine("This value must be positive and less than " + max);
+                input = GetMaxedInt(prompt, max);
+            }
+            return input;
+        }
         /// <summary>
         /// Gets string input from the user.
         /// </summary>
