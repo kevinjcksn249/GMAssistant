@@ -22,7 +22,7 @@ namespace GMAssistantConsole
     {
         static void Main(string[] args)
         {
-            Assistant ass = new Assistant();
+            Assistant helper = new Assistant();
 			string command = "";
             Help();
             while (command != "exit")
@@ -30,43 +30,89 @@ namespace GMAssistantConsole
 				Write ("\nGMAssistant: ");
 				command = ReadLine ();
 				string [] userInputs = command.Split ();
-				switch (userInputs[0])
+				switch (userInputs[0].ToLower())
 				{
                     case "help":
-                        Help();
+                        if (userInputs.Length == 1)
+                            Help();
+                        else
+                            Err();
+                        break;
+                    case "list":
+                        if (userInputs.Length == 1)
+                            List(helper);
+                        else
+                            Err();
                         break;
                     case "generate":
                         if (userInputs.Length == 1)
-                            GenCharacter(ass);
+                            GenCharacter(helper);
+                        else
+                            Err();
                         break;
                     case "build":
-
+                        if (userInputs.Length == 1)
+                            BuildCharacter(helper);
+                        else
+                            Err();
                         break;
                     case "load":
                         if (userInputs.Length == 1)
-                            Load(ass);
+                            Load(helper);
                         else if (userInputs.Length == 2)
-                            Load(ass, userInputs[1]);
+                            Load(helper, userInputs[1]);
+                        else
+                            Err();
                         break;
                     case "loadall":
-                        WriteLine("Loading.....");
-                        ass.LoadAll();
-                        WriteLine("Finished!");
+                        if (userInputs.Length == 1)
+                        {
+                            WriteLine("Loading.....");
+                            helper.LoadAll();
+                            WriteLine("Finished!");
+                        }
+                        else
+                            Err();
+                        break;
+                    case "save":
+                        if (userInputs.Length == 1)
+                            SaveCharacter(helper);
+                        else if (userInputs.Length == 2)
+                            SaveCharacter(helper, userInputs[1]);
+                        else
+                            Err();
                         break;
                     case "saveall":
-                        WriteLine("Saving......");
-                        ass.SaveAll();
-                        WriteLine("Finished!");
+                        if (userInputs.Length == 1)
+                        {
+                            WriteLine("Saving......");
+                            helper.SaveAll();
+                            WriteLine("Finished!");
+                        }
+                        else
+                            Err();
+                        break;
+                    case "csheet":
+                        if (userInputs.Length == 1)
+                            CSheet(helper);
+                        else if (userInputs.Length == 2)
+                            CSheet(helper, userInputs[1]);
+                        else
+                            Err();
                         break;
                     case "exit":
                         break;
                     default:
-                        WriteLine("Command not recognized. Type 'help' for available commands.");
+                        Err();
                         break;
 				}
 			}
         }
 
+        static void Err()
+        {
+            WriteLine("Command not recognized. Type 'help' for available commands.");
+        }
         #region Main program functions
         /// <summary>
         /// Display all possible commands within the program to the user.
@@ -75,15 +121,17 @@ namespace GMAssistantConsole
         {
             string h =  "\n\n\n    GM Assistant: a database for the CP2020 GM \n\n" +
                         "                         help - display this message\n" +
-                        "                     generate - generate a new character\n" +
-                        "                        build - create a new character, specifying each stat\n" +
-                        "      load [character handle] - load a character from the database\n" +
-                        "                      loadall - load all characters currently in the database\n" +
-                        "      save [character handle] - save a character to the database\n" +
-                        "                      saveall - save all characters in this session\n" +
                         "                         list - list all characters that have been loaded this session\n" +
+                        "                        build - create a new character, specifying each stat\n" +
+                        "                      loadall - load all characters currently in the database\n" +
+                        "                      saveall - save all characters in this session\n" +
+                        "                     generate - generate a new character\n" +
+                        "      save [character handle] - save a character to the database\n" +
+                        "      load [character handle] - load a character from the database\n" +
                         "    csheet [character handle] - look at a character's character sheet\n" +
-                        "      edit [character handle] - edit a character's stats, handle, and name\n" +
+                      //  "    unload [character handle] - unload a character's data from memory\n" +
+                      //  "    delete [character handle] - unload a character and delete it from the database\n" +
+                      //  "      edit [character handle] - edit a character's stats, handle, and name\n" +
                         "                         exit - exit the program\n\n\n";
 			WriteLine (h);
         }
@@ -96,7 +144,7 @@ namespace GMAssistantConsole
         {
             string name = Utilities.GetString("Enter the character's full name: ");
             string handle = Utilities.GetString("Enter the character's handle, or nickname: ");
-            WriteLine("Character ranks:\nPeon: 45\nAverage: 50 \nMinor Supporting character: 60\nMajor Supporting character: 70\nMinor hero: 75\nMajor Hero: 80\nBoss 85");
+            WriteLine("\n\nCharacter ranks:\nPeon: 45\nAverage: 50 \nMinor Supporting character: 60\nMajor Supporting character: 70\nMinor hero: 75\nMajor Hero: 80\nBoss 85");
             int points = Utilities.GetInt("Enter the number of points this character gets: ");
             WriteLine("\n\nAvailable classes");
             var classes = Enum.GetValues(typeof(CharacterClass));
@@ -153,9 +201,67 @@ namespace GMAssistantConsole
             else
                 WriteLine(handle + "loaded successfully!");
         }
+
+        static void LoadAll(Assistant a)
+        {
+            a.LoadAll();
+        }
         #endregion
 
 
+        #region Save
+        static void SaveCharacter(Assistant a)
+        {
+            string handle = Utilities.GetString("Enter the character's handle: ");
+            var c = a.GetCharacter(handle);
+            if (c != null)
+                a.SaveCharacter((Character)c);
+            else
+                WriteLine("Character not found.");
+        }
+
+        static void SaveCharacter(Assistant a, string handle)
+        {
+            var c = a.GetCharacter(handle);
+            if (c != null)
+                a.SaveCharacter((Character)c);
+            else
+                WriteLine("Character not found.");
+        }
+
+        static void SaveAll(Assistant a)
+        {
+            a.SaveAll();
+        }
+        #endregion
+
+        static void List(Assistant a)
+        {
+            foreach (Character c in a.LoadedCharacters)
+                WriteLine(c.Handle);
+            WriteLine("\n\n");
+        }
+
+        #region CSheet
+        static void CSheet(Assistant a)
+        {
+            string handle = Utilities.GetString("Enter the character's handle: ");
+            var c = a.GetCharacter(handle);
+            if (c != null)
+                WriteLine(c);
+            else
+                WriteLine("Character not found.");
+        }
+        static void CSheet(Assistant a, string handle)
+        {
+            var c = a.GetCharacter(handle);
+            if (c != null)
+                WriteLine(c);
+            else
+                WriteLine("Character not found.");
+        }
+
+        #endregion
         #endregion
 
     }

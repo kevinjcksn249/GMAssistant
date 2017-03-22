@@ -82,8 +82,8 @@ namespace GMAssistantConsole
         /// <returns></returns>
         public Character GetCharacter(string name)
         {
-            Character c = new Character(n: name);
-            return LoadedCharacters.Find(x => x.Name == name);
+            Character c = new Character(h: name);
+            return LoadedCharacters.Find(x => x.Handle == name);
         }
 
         /// <summary>
